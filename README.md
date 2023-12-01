@@ -1,15 +1,27 @@
 # Spring Cloud AWS Bedrock Starter
-## Lets you use the AWS Bedrock Service with Spring Boot and Spring Cloud
 
 [![Alpha](https://img.shields.io/badge/Release-Alpha-darkred)](https://img.shields.io/badge/Release-Alpha-darkred) ![Github Action CI Workflow Status](https://github.com/clue2solve/aws-bedrock-springtboot-starter/actions/workflows/ci.yml/badge.svg) [![Known Vulnerabilities](https://snyk.io/test/github/clue2solve/aws-bedrock-springtboot-starter/badge.svg?style=plastic)](https://snyk.io/test/github/clue2solve/aws-bedrock-springtboot-starter) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-### Bedrock 
+## Lets you use the AWS Bedrock Service with Spring Boot and Spring Cloud
+
+### Bedrock
+
 This project provides a developer friendly way to access the services of [AWS Bedrock](https://aws.amazon.com/bedrock/), an AWS service that provides a managed Language Model (LLM) service with a catalog of supported LLMs.
 This is a [Spring Cloud](https://spring.io/projects/spring-cloud) Starter for the Bedrock service that removes all the boilerplate code required to access the service. It uses the standard [Spring Cloud AWS](https://docs.awspring.io/spring-cloud-aws/docs/3.0.3/reference/html/index.html) Starter to provide the credentials for the [AWS SDK for Java](https://aws.amazon.com/sdk-for-java/), and the standards of Spring Boot and Spring Cloud to provide the configuration and the auto-wiring of the service objects.
 
-#### This project leverages Spring Cloud AWS for credential management 
+#### This project leverages Spring Cloud AWS for credential management
 
-Just provide the right properties as defined below and the appropriate [AWSCredentialsProvider](https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/AWSCredentialsProvider.html) object will be activated for injection into your Spring objects. An example for the creation of [BasicAwsCredentials](https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/BasicAWSCredentials.html) is shown below. You can follow the link below to understand all the other supported credential models. 
+Just provide the right environment variables or properties as defined below and the appropriate [AWSCredentialsProvider](https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/AWSCredentialsProvider.html) object will be activated for injection into your Spring objects. An example for the creation of [BasicAwsCredentials](https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/BasicAWSCredentials.html) is shown below. You can follow the link below to understand all the other supported credential models.
+
+```envvars
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
+
+# Optionally if using STS
+export AWS_SESSION_TOKEN=
+```
+
+or
 
 ```properties
 # for BasicAwsCredentials
@@ -22,17 +34,10 @@ spring.cloud.aws.credentials.profile.path=~/.aws/credentials
 ```
 > See the [Credentials](https://docs.awspring.io/spring-cloud-aws/docs/3.0.3/reference/html/index.html#credentials) section of Spring Cloud AWS Starter documentation for alternate configuration options.
 
-### Properties that will enable ClaudeService
-
-```properties
-aws.bedrock.model.id=anthropic.claude-v2
-aws.bedrock.model.claude.temperature=0.5
-aws.bedrock.model.claude.maxTokensToSample=100
-```
 
 ### The Bedrock and BedrockRuntimeClient
 
-Once the right AWSCredentialsProvider is injected, you can expect the activation of the appropriate versions of the [BedrockClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/bedrock/BedrockClient.html) and the [BedrockRuntimeClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/bedrockruntime/BedrockRuntimeClient.html). These will be conditional on the `bedrock.client.type` property. The options there are `sync` and `async`, which drive the activation of the _synchronous_ or the _asynchronous_ versions of the clients. 
+Once the right AWSCredentialsProvider is injected, you can expect the activation of the appropriate versions of the [BedrockClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/bedrock/BedrockClient.html) and the [BedrockRuntimeClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/bedrockruntime/BedrockRuntimeClient.html). These will be conditional on the `bedrock.client.type` property. The options there are `sync` and `async`, which drive the activation of the _synchronous_ or the _asynchronous_ versions of the clients.
 
 E.g.,
 
@@ -58,7 +63,7 @@ aws.bedrock.model.claude.maxTokensToSample=100
 
 #### Jurassic model parameters
 
-```properties 
+```properties
 aws.bedrock.model.jurassic.id=ai21.j2-mid-v1
 aws.bedrock.model.jurassic.maxTokens=200
 aws.bedrock.model.jurassic.temperature=0.5
@@ -124,5 +129,9 @@ You might also want to take a look at and/or run the Service [tests](src/test/ja
 ```bash
 mvn test -Dspring.profiles.active=authorized
 ```
+
+### Buzz
+
+* [Navigating the Future of Spring Boot: 3.2.0 upgrade, Spring AI and Beyond](https://www.youtube.com/watch?v=WrhS6E8ztv0)
 
 ![Cosmic Whaleshark generated by Stable Diffusion](assets/cosmic-whale-shark.png)
